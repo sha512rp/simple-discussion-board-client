@@ -1,0 +1,20 @@
+{
+  "name": "simple-discussion-board-angular-client",
+  "version": "0.0.0",
+  "description": "Simple discussion board as SPA.",
+  "authors": [
+    "Tomas Krizek <tomas.krizek@mailbox.org>"
+  ],
+  "license": "GNU GPL v2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "angular": "1.4.8"
+  }
+}

@@ -9,7 +9,9 @@
   <title>Discussion Board</title>
   <meta name="description" content="Simple discussion board.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="bower_components/bootcards/dist/css/bootcards-desktop.min.css">
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body ng-controller="ThreadListCtrl">
@@ -21,10 +23,24 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="thread-list">
-          <div class="thread-entry" ng-repeat="thread in threads">
-            <span>{{thread.title}}</span>
-          </li>
+        <div class="thread-list bootcards-list">
+          <div class="panel panel-default">
+            <div class="list-group">
+              <a class="list-group-item" href="#" ng-repeat="thread in threads">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h4 class="list-group-item-heading">{{thread.title}}</h4>
+                    <p class="list-group-item-text">created on: {{thread.created}}</p>
+                  </div>
+                  <div class="col-sm-6">
+                    <img ng-src="{{thread.author.gravatar_url}}" class="img-rounded pull-left">
+                    <p class="list-group-item-text">created by</p>
+                    <p class="list-group-item-heading">{{thread.author.username}}</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -46,5 +62,6 @@
   <script src="components/version/interpolate-filter.js"></script>
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="bower_components/bootcards/dist/js/bootcards.min.js"></script>
 </body>
 </html>

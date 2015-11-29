@@ -12,6 +12,8 @@
     "angular-mocks": "~1.4.0",
     "html5-boilerplate": "~5.2.0",
     "jquery": "~2.1.1",
-    "bootstrap": "~3.3.6"
+    "bootstrap": "~3.3.6",
+    "fontawesome": "~4.1.0",
+    "bootcards": "~1.1.2"
   }
 }

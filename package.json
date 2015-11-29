@@ -1,9 +1,9 @@
 {
-  "name": "angular-seed",
+  "name": "simple-discussion-board-angular-client",
   "private": true,
   "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "description": "Simple discussion board.",
+  "repository": "https://github.com/sha512rp/simple-discussion-board-angular-client.git",
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.3.1",

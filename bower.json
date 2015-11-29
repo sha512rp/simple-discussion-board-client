@@ -1,20 +1,15 @@
 {
-  "name": "simple-discussion-board-angular-client",
+  "name": "angular-seed",
+  "description": "A starter project for AngularJS",
   "version": "0.0.0",
-  "description": "Simple discussion board as SPA.",
-  "authors": [
-    "Tomas Krizek <tomas.krizek@mailbox.org>"
-  ],
-  "license": "GNU GPL v2.0",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
+  "homepage": "https://github.com/angular/angular-seed",
+  "license": "MIT",
+  "private": true,
   "dependencies": {
-    "bootstrap": "~3.3.6",
-    "angular": "1.4.8"
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    "html5-boilerplate": "~5.2.0"
   }
 }

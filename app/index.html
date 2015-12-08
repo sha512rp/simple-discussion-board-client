@@ -14,13 +14,12 @@
   <link rel="stylesheet" href="bower_components/bootcards/dist/css/bootcards-desktop.min.css">
   <link rel="stylesheet" href="css/app.css">
 </head>
-<body ng-controller="ThreadListCtrl">
+<body>
   <div class="container">
 
     <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
 
     <div class="row">
       <div class="col-md-8">
@@ -28,42 +27,7 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="thread-list bootcards-list">
-          <div class="panel panel-default">
-            <div class="list-group">
-              <a class="list-group-item" href="#" ng-repeat="thread in threads | orderBy:'-created'">
-                <div class="row">
-                  <div class="col-sm-8">
-                    <h4 class="list-group-item-heading">{{thread.title}}</h4>
-                    <p class="list-group-item-text">Created on {{thread.created | date:'MMM d, HH:mm'}}</p>
-                  </div>
-                  <div class="col-sm-4">
-                    <img ng-src="{{thread.author.gravatar_url}}" class="img-rounded pull-left">
-                    <p class="list-group-item-text">Created by</p>
-                    <p class="list-group-item-heading">{{thread.author.username}}</p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <a class="btn btn-default pull-left" href="#">
-          <i class="fa fa-angle-double-left"></i>
-          Previous
-        </a>
-        <a class="btn btn-default pull-right" href="#">
-          <i class="fa fa-angle-double-right"></i>
-          Next
-        </a>
-      </div>
-    </div>
+    <div ng-view></div>
 
     <div class="row">
       <div class="col-md-12">
@@ -73,7 +37,6 @@
       </div>
     </div>
 
-    <!-- <div ng-view></div> -->
   </div>
 
   <!-- In production use:

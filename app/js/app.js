@@ -1,12 +1,24 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('boardApp', [
+var boardApp = angular.module('boardApp', [
   'ngRoute',
-  'boardApp.view1',
-  'boardApp.view2',
-  'boardApp.version'
-]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/view1'});
-}]);
+  'boardControllers'
+]);
+
+
+boardApp.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/threads', {
+        templateUrl: 'partials/thread-list.html',
+        controller: 'ThreadListCtrl'
+      }).
+      when('/threads/:threadId', {
+        templateUrl: 'partials/thread-detail.html',
+        controller: 'ThreadDetailCtrl'
+      }).
+      otherwise({
+        redirectTo: '/threads'
+      });
+  }]);

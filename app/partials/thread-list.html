@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="thread-list bootcards-list">
+    <div class="thread-list bootcards-list" ng-if="threads.length > 0">
       <div class="panel panel-default">
         <div class="list-group">
           <a class="list-group-item" href="#{{thread.url}}" ng-repeat="thread in threads | orderBy:'-created'">
@@ -19,6 +19,7 @@
         </div>
       </div>
     </div>
+    <p ng-if="threads.length == 0">No threads available</p>
   </div>
 </div>
 

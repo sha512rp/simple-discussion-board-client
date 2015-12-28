@@ -4,26 +4,48 @@
 
 var boardControllers = angular.module('boardControllers', []);
 
-boardControllers.controller('ThreadListCtrl', ['$scope', '$http',
-  function($scope, $http) {
-    $http.get('http://private-76979-simplediscussionboard.apiary-mock.com/threads').success(function(data) {
-      var threads = data['threads'];
-
-      for (var i = threads.length - 1; i >= 0; i--) {
-        threads[i].created = Date.parse(threads[i].created);
-      };
-
-      $scope.threads = threads;
-      $scope.next = data['next'];
-      $scope.prev = data['prev'];
-    });
+var threadListCtrl = boardControllers.controller('ThreadListCtrl', ['$scope', '$http', 'UserService', 'ThreadService',
+  function($scope, $http, User, Thread) {
+    $scope.threads = Thread.data.threads;
+    $scope.next = Thread.data.next;
+    $scope.prev = Thread.data.prev;
+    $scope.username = User.user.username;
   }]);
 
-boardControllers.controller('ThreadDetailCtrl', ['$scope', '$http', '$routeParams',
-  function($scope, $http, $routeParams) {
-    var threadId = $routeParams.threadId;
-    $http.get('http://private-76979-simplediscussionboard.apiary-mock.com/threads/'+threadId).success(function(data) {
-      $scope.thread = data['thread'];
-      $scope.messages = data['messages'];
-    });
+threadListCtrl.loadThreads = function(ThreadService) {
+  return ThreadService.getAll();
+};
+
+var threadDetailCtrl = boardControllers.controller(
+  'ThreadDetailCtrl',
+  [
+    '$scope', '$http', 'MessageService', 'UserService',
+    function($scope, $http, Message, User) {
+      $scope.username = User.user.username;
+      $scope.thread = Message.data.thread;
+      $scope.messages = Message.data.messages;
+    }]);
+
+threadDetailCtrl.loadMessages = function($routeParams, MessageService) {
+  var threadId = $routeParams.threadId;
+  return MessageService.getAll(threadId);
+};
+
+boardControllers.controller('UserCtrl', ['$scope', '$http', '$location', '$timeout', 'UserService',
+  function($scope, $http, $location, $timeout, User) {
+    $scope.credentials = {  // default user credentials
+      username: 'demo',
+      password: 'demo'
+    };
+
+    $scope.login = function() {
+      User.login($scope.credentials, function(user) {
+        $timeout(function() {
+          // timeout is used to avoid $digest in progress error when calling $aply
+          $location.path('/threads');
+          $scope.$apply();
+        });
+      });
+    };
+
   }]);

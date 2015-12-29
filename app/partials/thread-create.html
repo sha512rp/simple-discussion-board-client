@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-md-12">
+    <p><a href="#/threads">Back to all threads</a></p>
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <div class="panel-heading-content">
+          <h3 class="panel-title pull-left">Create new Thread</h3>
+        </div>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <div class="col-xs-12">
+              <input type="text" class="form-control" placeholder="Title" ng-model="newThread.title" />
+            </div>
+            <div class="col-xs-12">
+              <textarea class="form-control" rows="5" placeholder="Text" ng-model="newThread.text"></textarea>
+            </div>
+          </div>
+        </form>
+        <button class="btn col-xs-12" ng-click="postThread()">
+          <i class="fa fa-message"></i>
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

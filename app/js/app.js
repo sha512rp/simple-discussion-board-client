@@ -19,6 +19,10 @@ boardApp.config(['$routeProvider',
           loadThreads: threadListCtrl.loadThreads
         }
       }).
+      when('/threads/create', {
+        templateUrl: 'partials/thread-create.html',
+        controller: 'ThreadCreateCtrl'
+      }).
       when('/threads/:threadId', {
         templateUrl: 'partials/thread-detail.html',
         controller: 'ThreadDetailCtrl',
@@ -28,10 +32,11 @@ boardApp.config(['$routeProvider',
       }).
       when('/login', {
       	templateUrl: 'partials/login.html',
-      	controller: 'UserCtrl'
+      	controller: 'LoginCtrl'
       }).
       when('/logout', {
-      	controller: 'UserCtrl'
+      	controller: 'LogoutCtrl',
+        templateUrl: 'partials/login.html'
       }).
       otherwise({
         redirectTo: '/threads'

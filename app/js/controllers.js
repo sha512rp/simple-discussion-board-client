@@ -4,44 +4,32 @@
 
 var boardControllers = angular.module('boardControllers', []);
 
-var threadListCtrl = boardControllers.controller('ThreadListCtrl', ['$scope', '$http', 'UserService', 'ThreadService',
-  function($scope, $http, User, Thread) {
+var threadListCtrl = boardControllers.controller('ThreadListCtrl', ['$scope', 'UserService', 'ThreadService',
+  function($scope, User, Thread) {
     $scope.threads = Thread.data.threads;
     $scope.next = Thread.data.next;
     $scope.prev = Thread.data.prev;
+    $scope.loggedIn = User.isLoggedIn();
     $scope.username = User.user.username;
+    $scope.gravatar = User.user.gravatar;
   }]);
 
 threadListCtrl.loadThreads = function(ThreadService) {
   return ThreadService.getAll();
 };
 
-var threadDetailCtrl = boardControllers.controller(
-  'ThreadDetailCtrl',
-  [
-    '$scope', '$http', 'MessageService', 'UserService',
-    function($scope, $http, Message, User) {
-      $scope.username = User.user.username;
-      $scope.thread = Message.data.thread;
-      $scope.messages = Message.data.messages;
-    }]);
+boardControllers.controller('ThreadCreateCtrl', ['$scope', '$timeout', '$location', 'UserService', 'ThreadService',
+  function($scope, $timeout, $location, User, Thread) {
+    if (!User.isLoggedIn()) {
+      $timeout(function(){
+        $location.path('/login');
+        $scope.$apply();
+      });
+    }
 
-threadDetailCtrl.loadMessages = function($routeParams, MessageService) {
-  var threadId = $routeParams.threadId;
-  return MessageService.getAll(threadId);
-};
-
-boardControllers.controller('UserCtrl', ['$scope', '$http', '$location', '$timeout', 'UserService',
-  function($scope, $http, $location, $timeout, User) {
-    $scope.credentials = {  // default user credentials
-      username: 'demo',
-      password: 'demo'
-    };
-
-    $scope.login = function() {
-      User.login($scope.credentials, function(user) {
-        $timeout(function() {
-          // timeout is used to avoid $digest in progress error when calling $aply
+    $scope.postThread = function() {
+      Thread.postThread({thread: $scope.newThread}, function(resp) {
+        $timeout(function(){
           $location.path('/threads');
           $scope.$apply();
         });
@@ -49,3 +37,53 @@ boardControllers.controller('UserCtrl', ['$scope', '$http', '$location', '$timeo
     };
 
   }]);
+
+var threadDetailCtrl = boardControllers.controller(
+  'ThreadDetailCtrl',
+  [
+    '$scope', 'MessageService', 'UserService',
+    function($scope, Message, User) {
+      $scope.username = User.user.username;
+      $scope.loggedIn = User.isLoggedIn();
+      $scope.gravatar = User.user.gravatar;
+      $scope.thread = Message.data.thread;
+      $scope.newMessage = {
+        text: ''
+      };
+      $scope.messages = Message.data.messages;
+
+      $scope.postMessage = function() {
+        Message.postMessage({message: $scope.newMessage},
+          function(resp) {
+            $scope.newMessage.text = '';
+          });
+      };
+    }]);
+
+threadDetailCtrl.loadMessages = function($routeParams, MessageService) {
+  var threadId = $routeParams.threadId;
+  return MessageService.getAll(threadId);
+};
+
+var returnToPreviousPage = function() {
+  history.back();
+};
+
+boardControllers.controller('LoginCtrl', ['$scope', 'UserService',
+  function($scope, User) {
+    $scope.credentials = {  // default user credentials
+      username: 'demo',
+      password: 'demo'
+    };
+
+    $scope.login = function() {
+      User.login($scope.credentials, returnToPreviousPage);
+    };
+
+  }]);
+
+boardControllers.controller('LogoutCtrl', ['UserService',
+  function(User) {
+    User.logout(returnToPreviousPage);
+  }]);
+

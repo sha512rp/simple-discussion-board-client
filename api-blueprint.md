@@ -179,6 +179,21 @@ Post new Message to a Thread.
 
 + Response 201 (application/json)
 
+    + Body
+
+            {
+                "message": {
+                    "id": 3,
+                    "text": "Lorem ipsum...",
+                    "created": "2015-11-15T20:40:51.620Z",
+                    "author": {
+                        "username": "sharp",
+                        "url": "/users/sharp",
+                        "gravatar_url": "https://secure.gravatar.com/avatar/5a7155001ebcfb6cb2a3ffe0f1f05435"
+                    }
+                }
+            }
+
 + Response 401 (application/json)
 
     + Body
@@ -196,11 +211,6 @@ Post new Message to a Thread.
 
 Retrieve a login token.
 
-+ Parameters
-    + user (string) ... Identifier of the User
-    + password (string) ... Password of the User
-
-
 + Request (application/json)
 
     + Body
@@ -215,6 +225,8 @@ Retrieve a login token.
     + Body
 
             {
+                "username": "sharp",
+                "gravatar": "https://secure.gravatar.com/avatar/5a7155001ebcfb6cb2a3ffe0f1f05435",
                 "token": "49rj34u9rj923"
             }
 
@@ -227,3 +239,20 @@ Retrieve a login token.
                     "message": "Unauthorized."
                 }
             }
+
+## User logout [/user/logout]
+
+### Log out [GET]
+
+Log out the user.
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "token": "49rj34u9rj923"
+            }
+
++ Response 201 (application/json)
+

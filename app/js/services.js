@@ -70,8 +70,8 @@ services
 
   var data = {
     threads: [],
-    prev: '',
-    next: ''
+    prev: null,
+    next: null
   };
 
   return {
@@ -106,8 +106,8 @@ services
   var data = {
     thread: {},
     messages: [],
-    prev: '',
-    next: ''
+    prev: null,
+    next: null
   };
 
   return {
@@ -116,6 +116,8 @@ services
       .success(function(resp) {
         data.thread = resp['thread'];
         data.messages = resp['messages'];
+        data.next = resp['next'];
+        data.prev = resp['prev'];
       });
     },
     postMessage: function(message, success) {

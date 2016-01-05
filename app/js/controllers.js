@@ -51,6 +51,8 @@ var threadDetailCtrl = boardControllers.controller(
         text: ''
       };
       $scope.messages = Message.data.messages;
+      $scope.next = Message.data.next;
+      $scope.prev = Message.data.prev;
 
       $scope.postMessage = function() {
         Message.postMessage({message: $scope.newMessage},

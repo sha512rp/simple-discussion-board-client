@@ -28,3 +28,11 @@ node_modules
 
 # Bower componenets directory
 bower_components
+
+# Python + Heroku
+server/venv
+*.pyc
+server/staticfiles
+
+# Temp files
+*~

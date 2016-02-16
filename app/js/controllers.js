@@ -51,19 +51,21 @@ var threadDetailCtrl = boardControllers.controller(
         text: ''
       };
       $scope.messages = Message.data.messages;
+      $scope.logout = User.logout;
       $scope.next = Message.data.next;
       $scope.prev = Message.data.prev;
 
       $scope.postMessage = function() {
-        Message.postMessage({message: $scope.newMessage},
+        Message.postMessage($scope.newMessage,
           function(resp) {
             $scope.newMessage.text = '';
           });
       };
     }]);
 
-threadDetailCtrl.loadMessages = function($route, MessageService) {
+threadDetailCtrl.loadMessages = function($route, MessageService, ThreadService) {
   var threadId = $route.current.params.threadId;
+  ThreadService.setCurrent(threadId);
   return MessageService.getAll(threadId);
 };
 

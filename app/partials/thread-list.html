@@ -10,7 +10,7 @@
                 <p class="list-group-item-text">Created on {{thread.created | date:'MMM d, HH:mm'}}</p>
               </div>
               <div class="col-sm-4 col-xs-6">
-                <img ng-src="{{thread.author.gravatar_url}}" class="img-rounded pull-left" />
+                <img ng-src="{{thread.author.gravatar_url}}" class="img-rounded pull-left"></img>
                 <p class="list-group-item-text">Created by</p>
                 <p class="list-group-item-heading">{{thread.author.username}}</p>
               </div>
@@ -22,6 +22,9 @@
           </a>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
 <div class="row">
   <div class="col-md-12">

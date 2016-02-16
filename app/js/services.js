@@ -20,6 +20,7 @@ services
     $cookies.put('username', user.username);
     $cookies.put('gravatar', user.gravatar);
     $cookies.put('token', user.token);
+    $http.defaults.headers.post.Authorization = "Token " + user.token;
     angular.extend(currentUser, user);
   }
 
@@ -94,6 +95,14 @@ services
         //data.prev = resp['prev'];
       });
     },
+    setCurrent: function(threadId) {
+      // sets the current thread by id
+      for (var i = 0; i < data.threads.length; i++) {
+          if (data.threads[i].id == threadId) {
+            data.current = data.threads[i];
+          }
+        };
+    },
     postThread: function(thread, success) {
       return $http.post(API_URL + 'threads/',
         {thread: thread})
@@ -130,11 +139,18 @@ services
       });
     },
     postMessage: function(message, success) {
-      return $http.post(API_URL + 'threads/' + data.thread.id + '/')
-      .success(function(resp) {
-        data.messages.push(resp['message']);
-        success(resp);
-      });
+      return $http({
+          url: API_URL + 'threads/' + ThreadService.data.current.id + '/',
+          method: 'POST',
+          data: message,
+          headers: {'Content-Type': 'application/json'}
+        })
+        .success(function(resp) {
+          data.messages.push(resp);
+          success(resp);
+        }).error(function(resp) {
+          console.log(resp)
+        });
     },
     data: data
   };

@@ -28,7 +28,7 @@ boardControllers.controller('ThreadCreateCtrl', ['$scope', '$timeout', '$locatio
     }
 
     $scope.postThread = function() {
-      Thread.postThread({thread: $scope.newThread}, function(resp) {
+      Thread.postThread($scope.newThread, function(resp) {
         $timeout(function(){
           $location.path('/threads');
           $scope.$apply();

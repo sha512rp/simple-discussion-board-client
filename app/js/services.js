@@ -104,11 +104,17 @@ services
         };
     },
     postThread: function(thread, success) {
-      return $http.post(API_URL + 'threads/',
-        {thread: thread})
-      .success(function(resp) {
-        success(resp);
-      });
+      return $http({
+          url: API_URL + 'threads/',
+          method: 'POST',
+          data: thread,
+          headers: {'Content-Type': 'application/json'}
+        })
+        .success(function(resp) {
+          success(resp);
+        }).error(function(resp) {
+          console.log(resp)
+        });
     },
     data: data
   };

@@ -71,21 +71,36 @@ var returnToPreviousPage = function() {
   history.back();
 };
 
-boardControllers.controller('LoginCtrl', ['$scope', 'UserService',
-  function($scope, User) {
+boardControllers.controller('LoginCtrl', ['$scope', '$location', 'UserService',
+  function($scope, $location, User) {
     $scope.credentials = {  // default user credentials
       username: 'demo',
-      password: 'demo'
+      password: 'demodemo'
     };
+
+    var changeLocation = function(url, forceReload) {
+      $scope = $scope || angular.element(document).scope();
+      if(forceReload || $scope.$$phase) {
+        window.location = url;
+      }
+      else {
+        $location.path(url);
+        $scope.$apply();
+      }
+    };
+
+    var returnToThreadList = function() {
+      changeLocation('#/threads/');
+    }
 
     $scope.login = function() {
-      User.login($scope.credentials, returnToPreviousPage);
+      User.login($scope.credentials, returnToThreadList);
     };
 
   }]);
 
-boardControllers.controller('LogoutCtrl', ['UserService',
-  function(User) {
-    User.logout(returnToPreviousPage);
-  }]);
+// boardControllers.controller('LogoutCtrl', ['UserService',
+//   function(User) {
+//     User.logout(returnToPreviousPage);
+//   }]);
 

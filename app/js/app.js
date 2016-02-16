@@ -34,10 +34,6 @@ boardApp.config(['$routeProvider',
       	templateUrl: 'partials/login.html',
       	controller: 'LoginCtrl'
       }).
-      when('/logout', {
-      	controller: 'LogoutCtrl',
-        templateUrl: 'partials/login.html'
-      }).
       otherwise({
         redirectTo: '/threads'
       });

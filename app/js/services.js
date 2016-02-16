@@ -4,6 +4,9 @@
 
 var services = angular.module('boardServices', []);
 
+var API_URL = 'http://localhost:8000/'
+
+
 services
 .factory('UserService', function($http, $cookies){
     
@@ -15,7 +18,7 @@ services
 
   var changeUser = function(user) {
     $cookies.put('username', user.username);
-    $cookies.put('gravatar', user.gravatar);
+    //$cookies.put('gravatar', user.gravatar);
     $cookies.put('token', user.token);
     angular.extend(currentUser, user);
   }
@@ -37,26 +40,28 @@ services
       if(user === undefined) {
         user = retriveUser();
       }
-      return user.username !== '';
+      return user.token !== '';
     },
     login: function(credentials, success) {
-      $http.post('http://private-76979-simplediscussionboard.apiary-mock.com/user/login', credentials)
+      changeUser({'username': credentials.username});
+      $http.post(API_URL + 'api-token-auth/', credentials)
       .success(function(user){
         changeUser(user);
         success(user);
+      }).error(function(error){
+        changeUser({
+          username: '',
+          token: ''
+        });
       });
     },
     logout: function(success) {
-      $http.get('http://private-76979-simplediscussionboard.apiary-mock.com/user/logout',
-        {token: currentUser.token})
-      .success(function(){
-        changeUser({
-          username: '',
-          token: '',
-          gravatar: ''
-        });
-        success();
+      changeUser({
+        username: '',
+        token: '',
+        gravatar: ''
       });
+      success();
     },
     retriveUser: retriveUser,
     changeUser: changeUser,
@@ -69,6 +74,7 @@ services
 .factory('ThreadService', function($http){
 
   var data = {
+    current: null,
     threads: [],
     prev: null,
     next: null
@@ -76,20 +82,20 @@ services
 
   return {
     getAll: function() {
-      return $http.get('http://private-76979-simplediscussionboard.apiary-mock.com/threads')
+      return $http.get(API_URL + 'threads/?limit=5')
       .success(function(resp) {
-        data.threads = resp['threads'];
+        data.threads = resp;
 
         for (var i = data.threads.length - 1; i >= 0; i--) {
           data.threads[i].created = Date.parse(data.threads[i].created);
         };
 
-        data.next = resp['next'];
-        data.prev = resp['prev'];
+        //data.next = resp['next'];
+        //data.prev = resp['prev'];
       });
     },
     postThread: function(thread, success) {
-      return $http.post('http://private-76979-simplediscussionboard.apiary-mock.com/threads',
+      return $http.post(API_URL + 'threads/',
         {thread: thread})
       .success(function(resp) {
         success(resp);
@@ -112,7 +118,7 @@ services
 
   return {
     getAll: function(threadId) {
-      return $http.get('http://private-76979-simplediscussionboard.apiary-mock.com/threads/'+threadId)
+      return $http.get(API_URL + 'threads/'+threadId)
       .success(function(resp) {
         data.thread = resp['thread'];
         data.messages = resp['messages'];
@@ -121,7 +127,7 @@ services
       });
     },
     postMessage: function(message, success) {
-      return $http.post('http://private-76979-simplediscussionboard.apiary-mock.com/threads/id'+data.thread.id)
+      return $http.post(API_URL + 'threads/id'+data.thread.id)
       .success(function(resp) {
         data.messages.push(resp['message']);
         success(resp);

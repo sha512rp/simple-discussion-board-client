@@ -62,8 +62,8 @@ var threadDetailCtrl = boardControllers.controller(
       };
     }]);
 
-threadDetailCtrl.loadMessages = function($routeParams, MessageService) {
-  var threadId = $routeParams.threadId;
+threadDetailCtrl.loadMessages = function($route, MessageService) {
+  var threadId = $route.current.params.threadId;
   return MessageService.getAll(threadId);
 };
 

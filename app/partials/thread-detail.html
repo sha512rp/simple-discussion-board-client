@@ -6,7 +6,7 @@
     <hr/>
     <div class="panel panel-default" ng-repeat="message in messages">
       <div class="panel-heading clearfix">
-        <img ng-src="{{message.author.gravatar_url}}" class="img-rounded gravatar pull-left">
+        <img ng-src="{{message.author.gravatar_url}}" class="img-rounded gravatar pull-left" />
         <p>
           {{message.author.username}} commented<br/>
           on {{message.created | date:'MMM d, HH:mm'}}
@@ -25,7 +25,7 @@
             <em>{{username}}</em><br/>
             <a href="#/logout">Logout</a>
           </p>
-          <img ng-src="{{gravatar}}" class="img-rounded gravatar pull-right">
+          <img ng-src="{{gravatar}}" class="img-rounded gravatar pull-right" />
         </div>
       </div>
       <div class="panel-body">

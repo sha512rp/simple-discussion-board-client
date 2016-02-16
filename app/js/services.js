@@ -18,7 +18,7 @@ services
 
   var changeUser = function(user) {
     $cookies.put('username', user.username);
-    //$cookies.put('gravatar', user.gravatar);
+    $cookies.put('gravatar', user.gravatar);
     $cookies.put('token', user.token);
     angular.extend(currentUser, user);
   }
@@ -82,7 +82,7 @@ services
 
   return {
     getAll: function() {
-      return $http.get(API_URL + 'threads/?limit=5')
+      return $http.get(API_URL + 'threads/')
       .success(function(resp) {
         data.threads = resp;
 
@@ -118,16 +118,19 @@ services
 
   return {
     getAll: function(threadId) {
-      return $http.get(API_URL + 'threads/'+threadId)
+      return $http.get(API_URL + 'threads/' + threadId + '/')
       .success(function(resp) {
-        data.thread = resp['thread'];
+        data.thread = {
+          'created': Date.parse(resp['created']),
+          'author': resp['author'],
+        }
         data.messages = resp['messages'];
         data.next = resp['next'];
         data.prev = resp['prev'];
       });
     },
     postMessage: function(message, success) {
-      return $http.post(API_URL + 'threads/id'+data.thread.id)
+      return $http.post(API_URL + 'threads/' + data.thread.id + '/')
       .success(function(resp) {
         data.messages.push(resp['message']);
         success(resp);

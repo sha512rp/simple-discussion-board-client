@@ -4,7 +4,7 @@
 
 var services = angular.module('boardServices', []);
 
-var API_URL = 'http://localhost:8000/'
+var API_URL = 'https://blooming-waters-1794.herokuapp.com/'
 
 
 services

@@ -19,6 +19,13 @@ boardApp.config(['$routeProvider',
           loadThreads: threadListCtrl.loadThreads
         }
       }).
+      when('/threads/?page=:page', {
+        templateUrl: 'partials/thread-list.html',
+        controller: 'ThreadListCtrl',
+        resolve: {
+          loadThreads: threadListCtrl.loadThreads
+        }
+      }).
       when('/threads/create', {
         templateUrl: 'partials/thread-create.html',
         controller: 'ThreadCreateCtrl'

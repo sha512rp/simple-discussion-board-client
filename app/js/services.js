@@ -44,11 +44,18 @@ services
       return user.token !== '';
     },
     login: function(credentials, success) {
-      changeUser({'username': credentials.username});
-      $http.post(API_URL + 'api-token-auth/', credentials)
-      .success(function(user){
-        changeUser(user);
-        success(user);
+      $http({
+          url: API_URL + 'api-token-auth/',
+          method: 'POST',
+          data: credentials,
+          headers: {'Content-Type': 'application/json',
+                    'Authorization': ''}
+      }).success(function(resp){
+        changeUser({
+          username: credentials.username,
+          token: resp['token']
+        });
+        success(resp);
       }).error(function(error){
         changeUser({
           username: '',
@@ -82,17 +89,25 @@ services
   };
 
   return {
-    getAll: function() {
-      return $http.get(API_URL + 'threads/')
+    getAll: function(page) {
+      return $http.get(API_URL + 'threads/?page=' + page)
       .success(function(resp) {
-        data.threads = resp;
+        data.threads = resp['threads'];
 
         for (var i = data.threads.length - 1; i >= 0; i--) {
           data.threads[i].created = Date.parse(data.threads[i].created);
         };
 
-        //data.next = resp['next'];
-        //data.prev = resp['prev'];
+        if (resp['next'] !== null) {
+          data.next = '/threads/?page=' + resp['next'];
+        } else {
+          data.next = null;
+        }
+        if (resp['prev'] !== null) {
+          data.prev = '/threads/?page=' + resp['prev'];
+        } else {
+          data.prev = null;
+        }
       });
     },
     setCurrent: function(threadId) {

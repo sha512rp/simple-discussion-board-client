@@ -14,8 +14,9 @@ var threadListCtrl = boardControllers.controller('ThreadListCtrl', ['$scope', 'U
     $scope.gravatar = User.user.gravatar;
   }]);
 
-threadListCtrl.loadThreads = function(ThreadService) {
-  return ThreadService.getAll();
+threadListCtrl.loadThreads = function($route, ThreadService) {
+  var page = $route.current.params.page;
+  return ThreadService.getAll(page);
 };
 
 boardControllers.controller('ThreadCreateCtrl', ['$scope', '$timeout', '$location', 'UserService', 'ThreadService',
@@ -45,15 +46,12 @@ var threadDetailCtrl = boardControllers.controller(
     function($scope, Message, User) {
       $scope.username = User.user.username;
       $scope.loggedIn = User.isLoggedIn();
-      $scope.gravatar = User.user.gravatar;
       $scope.thread = Message.data.thread;
       $scope.newMessage = {
         text: ''
       };
       $scope.messages = Message.data.messages;
       $scope.logout = User.logout;
-      $scope.next = Message.data.next;
-      $scope.prev = Message.data.prev;
 
       $scope.postMessage = function() {
         Message.postMessage($scope.newMessage,
